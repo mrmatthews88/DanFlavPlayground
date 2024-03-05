@@ -7,3 +7,5 @@
 /.vs
 /Test Project/bin/Debug/net6.0
 /Test Project/obj
+/AnotherTest/obj
+/AnotherTest/bin/Debug/net6.0

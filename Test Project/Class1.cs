@@ -16,9 +16,6 @@ namespace Test_Project
 
             var data = ctx.YourEntities.ToList();
 
-
-            var a = 1;
-            Assert.AreEqual(1, a);
         }
     }
 }
