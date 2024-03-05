@@ -2,10 +2,10 @@
 using Dumpify;
 using NUnit.Framework;
 using AnotherTest.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace AnotherTest
 {
+
     public class DbTest
     {
         DatabaseContext db = new();
@@ -14,7 +14,7 @@ namespace AnotherTest
         public void AddDan()
         {
 
-
+            
             db.Add(new YourEntity(){ Name = "Dan", Age = 29 });
 
             List<int> x = new List<int>() { 1,3,5,7,89};
@@ -36,8 +36,17 @@ namespace AnotherTest
         [Test]
         public void LazyLoading()
         {
+            // i made this helper class to enable lazy loading if you want it normally this would go into the DbContext
+            // but i made this incase you have to re-generate the db context, that would remove the code to add lazy loading
+            // by using a provider helper class we can setup any additional DB options we want and like i have done here you can get a DB context for some pre-set options
+            var db1 = DbContextProvider.LazyLoading();
+            var db2 = DbContextProvider.Standard();
+
             // this shows all the related entities loading with lazy loading
-            var data = db.Users.ToList().Dump();
+            var data1 = db1.Users.ToList().Dump();
+
+            //This shows it without lazy loading
+            var data2 = db2.Users.ToList().Dump();
             ;
         }
     }
