@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using NUnit.Framework.Constraints;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +17,20 @@ namespace Test_Project
             var ctx = new DatabaseContext();
 
             var data = ctx.YourEntities.ToList();
+            ctx.YourEntities.RemoveWhere(x => x.Name == "Sarah");
+            ctx.SaveChanges();
 
+            var a = 1;
+            Assert.AreEqual(1, a);
+        }
+    }
+
+
+    public static class DbExtensions
+    {
+        public static void RemoveWhere<T>(this DbSet<T> dbSet, Func<T, bool> predicate) where T : class
+        {
+            dbSet.RemoveRange(dbSet.Where(predicate));
         }
     }
 }
