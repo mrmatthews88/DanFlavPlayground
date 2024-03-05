@@ -17,7 +17,7 @@ namespace Test_Project.Database
 
     }
 
-    public class YourEntity
+    internal class YourEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
