@@ -9,8 +9,8 @@ namespace AnotherTest
     {
         public static T LazyLoading<T>() where T : DbContext, new()
         {
-            var options = new DbContextOptionsBuilder<T>().UseLazyLoadingProxies().Options;
-            return (T)Activator.CreateInstance(typeof(T), options);
+            var options = new DbContextOptionsBuilder<T>().UseLazyLoadingProxies();
+            return (T)Activator.CreateInstance(typeof(T), options.Options);
         }
 
 
