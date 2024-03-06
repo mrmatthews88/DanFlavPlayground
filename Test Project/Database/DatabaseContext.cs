@@ -18,13 +18,23 @@ namespace Test_Project.Database
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict); ;
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Article)
                 .WithMany(a => a.Comments)
                 .HasForeignKey(c => c.ArticleId)
-                .OnDelete(DeleteBehavior.Restrict);
+                ;
+
+            modelBuilder.Entity<Article>()
+                .HasOne(a => a.User)
+                .WithMany(u => u.Articles)
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.Restrict); ;
+
+            // Other configurations...
+
+            modelBuilder.Entity<ArticleTag>().HasNoKey();
         }
 
 
@@ -32,6 +42,7 @@ namespace Test_Project.Database
         public DbSet<Article> Articles { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<ArticleTag> ArticleTags { get; set; }
         public DbSet<YourEntity> YourEntities { get; set; }
 
     }

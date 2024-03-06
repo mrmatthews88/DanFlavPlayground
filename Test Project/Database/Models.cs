@@ -57,14 +57,15 @@ namespace Test_Project.Database
         public ICollection<Article> Articles { get; set; }
     }
 
-    //public class ArticleTag
-    //{
-    //    // Composite key
-    //    public int ArticleId { get; set; }
-    //    public int TagId { get; set; }
 
-    //    // Navigation properties
-    //    public Article Article { get; set; }
-    //    public Tag Tag { get; set; }
-    //}
+    public class ArticleTag
+    {
+        // Composite key
+        public int ArticleId { get; set; }
+        public int TagId { get; set; }
+
+        // Navigation properties
+        public Article Article { get; set; }
+        public Tag Tag { get; set; }
+    }
 }

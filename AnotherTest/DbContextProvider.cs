@@ -1,19 +1,22 @@
-﻿using AnotherTest.Database;
+﻿
+using AnotherTest.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace AnotherTest
 {
     public static class DbContextProvider
     {
-        public static DatabaseContext LazyLoading()
+        public static T LazyLoading<T>() where T : DbContext, new()
         {
-            var options = new DbContextOptionsBuilder<DatabaseContext>().UseLazyLoadingProxies().Options;
-            return new DatabaseContext(options);
+            var options = new DbContextOptionsBuilder<T>().UseLazyLoadingProxies().Options;
+            return (T)Activator.CreateInstance(typeof(T), options);
         }
 
-        public static DatabaseContext Standard()
+
+        public static T Standard<T>() where T : DbContext, new()
         {
-            return new DatabaseContext();
+            return new T();
         }
     }
 }

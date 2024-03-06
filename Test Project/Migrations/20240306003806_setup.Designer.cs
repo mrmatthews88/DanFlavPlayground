@@ -12,8 +12,8 @@ using Test_Project.Database;
 namespace Test_Project.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240305225631_initial")]
-    partial class initial
+    [Migration("20240306003806_setup")]
+    partial class setup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,21 @@ namespace Test_Project.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("Test_Project.Database.ArticleTag", b =>
+                {
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ArticleTags");
                 });
 
             modelBuilder.Entity("Test_Project.Database.Comment", b =>
@@ -177,10 +192,29 @@ namespace Test_Project.Migrations
                     b.HasOne("Test_Project.Database.User", "User")
                         .WithMany("Articles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Test_Project.Database.ArticleTag", b =>
+                {
+                    b.HasOne("Test_Project.Database.Article", "Article")
+                        .WithMany()
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Test_Project.Database.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Test_Project.Database.Comment", b =>
@@ -188,7 +222,7 @@ namespace Test_Project.Migrations
                     b.HasOne("Test_Project.Database.Article", "Article")
                         .WithMany("Comments")
                         .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Test_Project.Database.User", "User")
